@@ -4,11 +4,13 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 
 var numDice = 1;
+var numRolls = 0;
 var diceBox = null;
 var myChart = null;
 var autoRolling = false;
 var interval = null;
 var updateChartInterval = null;
+var predCopy = null;
 
 const outputClass = [
     "fa-solid fa-dice-one fa-4x",
@@ -28,6 +30,7 @@ function createMainBox(){
 }
 
 function roll(){
+    numRolls++;
     removeAllChildNodes(diceBox);
     let total = 0;
     for (let i = 0; i < numDice; i++){
@@ -38,7 +41,7 @@ function roll(){
         diceBox.appendChild(die);
         total += num + 1;
     }
-    document.getElementById("total").innerText = `Total:${total}`;
+    document.getElementById("total").innerText = `Total:${total} - #Rolls:${numRolls}`;
     addTotal(total);
 }
 
@@ -87,7 +90,7 @@ function blankDice(){
         die.classList = "fa-solid fa-square fa-4x";
         diceBox.appendChild(die);
     }
-    document.getElementById("total").innerText = `Total:0`;
+    document.getElementById("total").innerText = `Total:0 - #Rolls:0`;
 }
 
 function doComb(data){
@@ -101,6 +104,7 @@ function doComb(data){
 
 //chart stuff
 function initChart(){
+    numRolls = 0;
     const minTotal = numDice;
     const maxTotal = numDice*6;
     const labels = [];
@@ -111,7 +115,7 @@ function initChart(){
     }
 
     const pred = doComb(labels);
-
+    predCopy = [...pred];
     const ctx = document.getElementById('myChart').getContext('2d');
     myChart = new Chart(ctx, {
         data: {
@@ -147,7 +151,16 @@ function initChart(){
 
 function addTotal(total) {
     myChart.data.datasets.forEach((dataset) => {
-        dataset.data[total-numDice] ++;
+        if(dataset.type =='bar'){
+           dataset.data[total-numDice] ++; 
+        }
+        else{
+            //console.log(stuff);
+            for(let i=0;i<dataset.data.length;i++){
+                dataset.data[i] = predCopy[i] * numRolls;
+                //console.log(dataset.data[i]);
+            }
+        }
     });
 }
 

@@ -4,29 +4,106 @@ document.addEventListener("DOMContentLoaded", function(){
 });
 
 var numDice = 1;
+var diceSides = 6;
 var numRolls = 0;
-var diceBox = null;
-var myChart = null;
 var autoRolling = false;
-var interval = null;
-var updateChartInterval = null;
-var predCopy = null;
+
+var updateChartInterval, diceBox, myChart, interval = null;
+
+var labels, data, probArr, pred;
 
 const outputClass = [
-    "fa-solid fa-dice-one fa-4x",
-    "fa-solid fa-dice-two fa-4x",
-    "fa-solid fa-dice-three fa-4x",
-    "fa-solid fa-dice-four fa-4x",
-    "fa-solid fa-dice-five fa-4x",
-    "fa-solid fa-dice-six fa-4x"
+    "fa-solid fa-dice-one fa-4x fa-shake",
+    "fa-solid fa-dice-two fa-4x fa-shake",
+    "fa-solid fa-dice-three fa-4x fa-shake",
+    "fa-solid fa-dice-four fa-4x fa-shake",
+    "fa-solid fa-dice-five fa-4x fa-shake",
+    "fa-solid fa-dice-six fa-4x fa-shake"
 ]
 
 function createMainBox(){
     diceBox = document.getElementById("diceBox");
-    document.getElementById("roll-button").onclick = function(){rollClick()};
+    diceBox.onclick = function(){rollClick()};
+    // document.getElementById("roll-button").onclick = function(){rollClick()};
     document.getElementById("auto-roll-button").onclick = function(){autoRollClick()};
-    document.getElementById("dice-num-button").onclick = function(){newDiceNum()};
+    // document.getElementById("dice-num-button").onclick = function(){newDiceNum()};
+    // document.getElementById("dice-type-button").onclick = function(){newDiceType()};
+    document.getElementById("chart-dropdown-button").onclick = function(){dropChart()};
+
+    document.getElementById("set-d-6").onclick = function(){setD6()};
+    document.getElementById("set-d-20").onclick = function(){setD20()};
+
+    document.getElementById("addDie").onclick = function(){addDie()};
+    document.getElementById("removeDie").onclick = function(){removeDie()};
     blankDice();
+}
+
+function setD6(){
+    diceSides = 6;
+    myChart.destroy();
+    initChart();
+    blankDice();
+}
+
+function setD20(){
+    diceSides = 20;
+    myChart.destroy();
+    initChart();
+    blankDice();
+}
+
+function addDie(){
+    numDice++;
+    myChart.destroy();
+    initChart();
+    blankDice();
+}
+
+function removeDie(){
+    if(numDice <= 1) return;
+    numDice--;
+    myChart.destroy();
+    initChart();
+    blankDice();
+}
+
+function dropChart(){
+    let chartDiv = document.getElementById("chartDiv");
+    let button = document.getElementById("chart-dropdown-button");
+    if(chartDiv.classList.contains("hidden")){
+        chartDiv.classList.remove("hidden");
+        button.classList.remove("fa-square-caret-down");
+        button.classList.add("fa-square-caret-up");
+    }
+    else{
+        chartDiv.classList.add("hidden");
+        button.classList.add("fa-square-caret-down");
+        button.classList.remove("fa-square-caret-up");
+    }
+}
+
+function createDiceViz(num, diceSides){
+    let die = document.createElement("i");
+    if(diceSides == 6){
+       die.classList = outputClass[num]; 
+       diceBox.appendChild(die);
+    }
+    else{
+        let div = document.createElement("div");
+        let span = document.createElement("span");
+        span.classList = "fa-layers fa-fw";
+
+        let text = document.createElement("span");
+        text.classList = "fa-layers-text fa-inverse";
+        text.innerText = num;
+
+        die.classList = "fa-solid fa-square fa-4x fa-shake";
+
+        span.appendChild(die);
+        span.appendChild(text);
+        div.appendChild(span);
+        diceBox.appendChild(div);
+    }
 }
 
 function roll(){
@@ -35,40 +112,49 @@ function roll(){
     let total = 0;
     for (let i = 0; i < numDice; i++){
         //random number between 0 and 5
-        let num = Math.floor(Math.random()* 6);
-        let die = document.createElement("i");
-        die.classList = outputClass[num];
-        diceBox.appendChild(die);
+        let num = Math.floor(Math.random()* diceSides);
+        createDiceViz(num, diceSides);
         total += num + 1;
     }
-    document.getElementById("total").innerText = `Total:${total} - #Rolls:${numRolls}`;
+    document.getElementById("total").innerText = `Total: ${total}`;
+    document.getElementById("rolls").innerText = `#Rolls: ${numRolls}`;
     addTotal(total);
 }
 
 function rollClick(){
     roll();
-    updateChart();
+    myChart.update();
 }
 
 function autoRollClick(){
+    let button = document.getElementById("auto-roll-button");
     if(autoRolling){
-        document.getElementById("auto-roll-button").innerText = "Auto-Roll";
+        button.classList.remove("fa-pause");
+        button.classList.add("fa-play");
         autoRolling = false;
         clearInterval(interval);
         clearInterval(updateChartInterval);
-        updateChart();
+        myChart.update();
     }
     else{
-        document.getElementById("auto-roll-button").innerText = "Stop";
+        button.classList.remove("fa-play");
+        button.classList.add("fa-pause");
         autoRolling = true;
         interval = setInterval(function() {
             roll();
         }, 0);
         updateChartInterval = setInterval(function() {
-            updateChart();
+            myChart.update();
         }, 100);
     }
 }
+
+// function newDiceType(){
+//     diceSides = document.getElementById("typeDice").value;
+//     myChart.destroy();
+//     initChart();
+//     blankDice();
+// }
 
 function newDiceNum(){
     numDice = document.getElementById("numDice").value;
@@ -85,37 +171,50 @@ function removeAllChildNodes(parent) {
 
 function blankDice(){
     removeAllChildNodes(diceBox);
-    for (let i = 0; i < numDice; i++){
-        let die = document.createElement("i");
-        die.classList = "fa-solid fa-square fa-4x";
-        diceBox.appendChild(die);
+    if(diceSides == 6){
+        for (let i = 0; i < numDice; i++){
+            let die = document.createElement("i");
+            die.classList = "fa-solid fa-square fa-4x";
+            diceBox.appendChild(die);
+        }
     }
-    document.getElementById("total").innerText = `Total:0 - #Rolls:0`;
+    else if(diceSides == 20){
+        for (let i = 0; i < numDice; i++){
+            let die = document.createElement("i");
+            die.classList = "fa-solid fa-circle fa-4x";
+            diceBox.appendChild(die);
+        }
+    }
+    
+    document.getElementById("total").innerText = `Total:`;
+    document.getElementById("rolls").innerText = `#Rolls:0`;
 }
 
 function doComb(data){
     let ret = [];
     for(i=0;i<=data.length;i++){
-        ret.push(probSumY(data[i], numDice))
+        ret.push(probSumY(data[i], numDice, diceSides))
     }
     return ret;
+}
+
+function initChartData(){
+    data = [];
+    labels = [];
+    for (var i = numDice; i <= numDice*diceSides; i++) {
+        labels.push(i);
+        data.push(0);
+    }
+    pred = doComb(labels);
+    probArr = [...pred];
 }
 
 
 //chart stuff
 function initChart(){
     numRolls = 0;
-    const minTotal = numDice;
-    const maxTotal = numDice*6;
-    const labels = [];
-    const data = [];
-    for (var i = minTotal; i <= maxTotal; i++) {
-        labels.push(i);
-        data.push(0);
-    }
+    initChartData();
 
-    const pred = doComb(labels);
-    predCopy = [...pred];
     const ctx = document.getElementById('myChart').getContext('2d');
     myChart = new Chart(ctx, {
         data: {
@@ -136,10 +235,7 @@ function initChart(){
         options: {
             scales: {
                 y: {
-                    beginAtZero: true//,
-                    // ticks: {
-                    //     stepSize: 1
-                    // }
+                    beginAtZero: true
                 }
             },
             animation: {
@@ -150,20 +246,9 @@ function initChart(){
 }
 
 function addTotal(total) {
-    myChart.data.datasets.forEach((dataset) => {
-        if(dataset.type =='bar'){
-           dataset.data[total-numDice] ++; 
-        }
-        else{
-            //console.log(stuff);
-            for(let i=0;i<dataset.data.length;i++){
-                dataset.data[i] = predCopy[i] * numRolls;
-                //console.log(dataset.data[i]);
-            }
-        }
-    });
-}
+    data[total-numDice] ++; 
 
-function updateChart(){
-    myChart.update();
+    for(let i = 0; i < pred.length; i++){
+        pred[i] = probArr[i] * numRolls;
+    }
 }

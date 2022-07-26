@@ -31,7 +31,7 @@ function createMainBox(){
     document.getElementById("chart-dropdown-button").onclick = function(){dropChart()};
 
     document.getElementById("set-d-6").onclick = function(){setD6()};
-    document.getElementById("set-d-20").onclick = function(){setD20()};
+    //document.getElementById("set-d-20").onclick = function(){setD20()};
     document.getElementById("reset").onclick = function(){reset()};
 
     document.getElementById("addDie").onclick = function(){addDie()};

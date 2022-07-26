@@ -65,18 +65,41 @@ function setD20(){
 }
 
 function addDie(){
-    numDice++;
-    myChart.destroy();
-    initChart();
-    blankDice();
+    if(numDice < 16){
+        numDice++;
+        myChart.destroy();
+        initChart();
+        blankDice(); 
+        if(numDice == 16){
+            let upButton = document.getElementById("up-arrow");
+            upButton.classList.remove("fa-chevron-up");
+            upButton.classList.add("fa-xmark");
+            document.getElementById("addDie").classList.remove("clickable");
+        }
+    }
+    let downButton = document.getElementById("down-arrow");
+    downButton.classList.add("fa-chevron-down");
+    downButton.classList.remove("fa-xmark");
+    document.getElementById("removeDie").classList.add("clickable");
 }
 
 function removeDie(){
-    if(numDice <= 1) return;
-    numDice--;
-    myChart.destroy();
-    initChart();
-    blankDice();
+    if(numDice > 1){
+        numDice--;
+        myChart.destroy();
+        initChart();
+        blankDice(); 
+        if(numDice == 1){
+            let downButton = document.getElementById("down-arrow");
+            downButton.classList.remove("fa-chevron-down");
+            downButton.classList.add("fa-xmark");
+            document.getElementById("removeDie").classList.remove("clickable");
+        }
+    }
+    let upButton = document.getElementById("up-arrow");
+    upButton.classList.add("fa-chevron-up");
+    upButton.classList.remove("fa-xmark");
+    document.getElementById("addDie").classList.add("clickable");
 }
 
 function dropChart(){

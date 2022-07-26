@@ -1,6 +1,7 @@
 
 body{
   font-family: "Audiowide", sans-serif;
+  -webkit-tap-highlight-color: transparent;
 }
 
 .flex-container {

@@ -26,32 +26,28 @@
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
-        <div id="buttonBox" class="fa-xl">
-            <!-- <button type="button" id="roll-button">Roll</button> -->
-            <i id="auto-roll-button" class="fa-solid fa-play"></i>
-            <!-- <input type="number" id="numDice" value="1" min="1" max="500">
-            <button type="button" id="dice-num-button"># Dice</button> -->
-            <!-- <input type="number" id="typeDice" value="6" min="2" max="20">
-            <button type="button" id="dice-type-button">Dice Type</button> -->
-            <i id="set-d-6" class="fa-solid fa-dice-d6 clickable">d6</i>
-            <i id="set-d-20" class="fa-solid fa-dice-d20 clickable">d20</i>
-            <i id="reset" class="fa-solid fa-arrow-rotate-right clickable"></i>
-        </div>
-
         <div class="container">
-            <span id="addDie" class="fa-stack fa-2x clickable">
+            <div id="buttonBox" class="fa-xl col1-2row1">
+                <i id="auto-roll-button" class="fa-solid fa-play"></i>
+                <i id="set-d-6" class="fa-solid fa-dice-d6 clickable"></i>
+                <i id="set-d-20" class="fa-solid fa-dice-d20 clickable"></i>
+                <i id="reset" class="fa-solid fa-arrow-rotate-right clickable"></i>
+            </div>
+
+            <span id="addDie" class="fa-stack fa-2x col1row2 clickable">
                 <i class="fa-solid fa-square fa-stack-2x"></i>
                 <i id="up-arrow" class="fa-solid fa-chevron-up fa-stack-1x fa-inverse"></i>
             </span>
-            <span id="removeDie" class="fa-stack fa-2x col1row2">
+            <span id="removeDie" class="fa-stack fa-2x col1row3">
                 <i class="fa-solid fa-square fa-stack-2x"></i>
                 <i id="down-arrow" class="fa-solid fa-xmark fa-stack-1x fa-inverse"></i>
             </span>
             
             <div id="diceBox" class="flex-container clickable"></div>
+
+            <p id="total" class="col1-2row4" style="text-align: center; width:100%;">Total:</p>
         </div>
 
-        <p id="total" style="text-align: center; width:100%;">Total:</p>
         <br>
         
         <div id="chartDiv" class="center hidden">

@@ -32,9 +32,21 @@ function createMainBox(){
 
     document.getElementById("set-d-6").onclick = function(){setD6()};
     document.getElementById("set-d-20").onclick = function(){setD20()};
+    document.getElementById("reset").onclick = function(){reset()};
 
     document.getElementById("addDie").onclick = function(){addDie()};
     document.getElementById("removeDie").onclick = function(){removeDie()};
+    blankDice();
+}
+
+function reset(){
+    autoRolling = false;
+    clearInterval(interval);
+    clearInterval(updateChartInterval);
+    diceSides = 6;
+    numDice = 1;
+    myChart.destroy();
+    initChart();
     blankDice();
 }
 
@@ -192,7 +204,7 @@ function blankDice(){
 
 function doComb(data){
     let ret = [];
-    for(i=0;i<=data.length;i++){
+    for(i=0;i<data.length;i++){
         ret.push(probSumY(data[i], numDice, diceSides))
     }
     return ret;

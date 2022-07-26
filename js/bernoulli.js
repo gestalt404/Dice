@@ -1,10 +1,14 @@
 //probability sum is y
-//y = sum, x = num dice, s = sides of dice
+//y = sum (probability that you roll this number)
+//x = num dice  (number of dice rolling)
+//s = sides of dice (number of sides each die has)
 function probSumY(y,x,s) {
     let tot = 0;
     for(let i  = 0; i <= (y-x)/s; i++) {
-        tot += (Math.pow(-1, i) * combinations(x,i) * combinations(y-s*i-1, x-1)) / Math.pow(s, x);
+        tot += (((-1) ** i) * combinations(x,i) * combinations(y-s*i-1, x-1)) / (s ** x);
+        //console.log(tot);
     }
+    //console.log(`${y}, ${x}, ${s} = ${tot}`);
     return tot;
 }
 

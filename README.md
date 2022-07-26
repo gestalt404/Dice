@@ -1,7 +1,7 @@
 # Dice
 [its dice](https://gestalt404.github.io/Dice/base.html)
 
-##Description
+## Description
 This is a Javascript program to simulate dice addition statistics.
 It uses combinitorial math to predict the liklihood for dice sums used in popular games like D&D and Catan.
 You can use the autorun feature to see if the predictions hold true.

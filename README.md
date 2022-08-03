@@ -10,6 +10,7 @@ You can use the autorun feature to see if the predictions hold true.
 ## Issues
 - Output prediction gets wonky with more than 15 dice due to maxInt issues
 - Sizing of the screen is weird
+- Fix tooltips
 
 ## Planned Features
 - Add D20 functionality

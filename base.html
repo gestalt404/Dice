@@ -27,34 +27,66 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
         <div class="container">
-            <div id="buttonBox" class="fa-xl col1-2row1">
-                <i id="auto-roll-button" class="fa-solid fa-play"></i>
-                <i id="set-d-6" class="fa-solid fa-dice-d6 clickable"></i>
-                <!-- <i id="set-d-20" class="fa-solid fa-dice-d20 clickable"></i> -->
-                <i id="reset" class="fa-solid fa-arrow-rotate-right clickable"></i>
+            <div id="buttonBox" class="col1-2row1">
+                <!-- auto roll button -->
+                <div class="tooltip">
+                    <span class="tooltiptext">Auto Roll</span>
+                    <i id="auto-roll-button" class="fa-xl fa-solid fa-play clickable"></i>
+                </div>
+
+                <!-- select D6 button -->
+                <div class="tooltip">
+                    <span class="tooltiptext">Select D6</span>
+                    <i id="set-d-6" class="fa-xl fa-solid fa-dice-d6 clickable"></i>
+                </div>
+                
+                <!-- reset button -->
+                <div class="tooltip">
+                    <span class="tooltiptext">Reset</span>
+                    <i id="reset" class="fa-xl fa-solid fa-arrow-rotate-right clickable"></i>
+                </div>
+                <!-- <i id="set-d-20" class="fa-xl fa-solid fa-dice-d20 clickable"></i> -->
+                
             </div>
 
-            <span id="addDie" class="fa-stack fa-xl col1row2 clickable">
-                <i class="fa-solid fa-square fa-stack-2x"></i>
-                <i id="up-arrow" class="fa-solid fa-chevron-up fa-stack-1x fa-inverse"></i>
-            </span>
-            <span id="removeDie" class="fa-stack fa-xl col1row3">
-                <i class="fa-solid fa-square fa-stack-2x"></i>
-                <i id="down-arrow" class="fa-solid fa-xmark fa-stack-1x fa-inverse"></i>
-            </span>
-            
-            <div id="diceBox" class="flex-container clickable"></div>
+            <!-- add dice button -->
+            <div class="tooltip col1row2">
+                <span class="tooltiptext">Add Die</span>
+                <span id="addDie" class="fa-stack fa-xl clickable">
+                    <i class="fa-solid fa-square fa-stack-2x"></i>
+                    <i id="up-arrow" class="fa-solid fa-chevron-up fa-stack-1x fa-inverse"></i>
+                </span>
+            </div>
 
+            <!-- remove dice button -->
+            <div class="tooltip col1row3">
+                <span class="tooltiptext">Remove Die</span>
+                <span id="removeDie" class="fa-stack fa-xl">
+                    <i class="fa-solid fa-square fa-stack-2x"></i>
+                    <i id="down-arrow" class="fa-solid fa-xmark fa-stack-1x fa-inverse"></i>
+                </span>
+            </div>
+            
+            <!-- <div class="tooltip">
+                <span class="tooltiptext">Roll Dice</span> -->
+                <div id="diceBox" class="flex-container clickable"></div>
+            <!-- </div> -->
+            
+            <!-- total counter -->
             <p id="total" class="col1-2row4" style="text-align: center; width:100%;">Total:</p>
         </div>
 
-        <br>
-        
+        <!-- this is the chart -->
         <div id="chartDiv" class="center hidden">
             <p id="rolls"># Rolls: </p>
             <canvas id="myChart"></canvas>
         </div>
-        <i id="chart-dropdown-button" class="fa-solid fa-square-caret-down fa-2x clickable"></i>
+
+        <!-- dropdown for the chart -->
+        <div class="tooltip fitcontent">
+            <span class="tooltiptext">Dropdown Chart</span>
+            <i id="chart-dropdown-button" class="fa-solid fa-square-caret-down fa-2x clickable"></i> 
+        </div>
         
         <script src="" async defer></script>
     </body>
